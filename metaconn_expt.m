@@ -56,6 +56,13 @@ end
 switch_mod = double(abs(diff(S2')')>0);
 switch_parcel = nansum(switch_mod,2)/nTime;
 
+for t = 1:nTime
+  np_Z(:,t) = (np(:,t) - nanmean(np(:,t))) / nanstd(np(:,t));
+end
+
+sw_Z = (switch_parcel - nanmean(switch_parcel))/ nanstd(switch_parcel);
+
+prom_Z = (nanmean(np_Z,2) + sw_Z) / 2;
 
 
 %% graph theoretical measures (requires code from: https://sites.google.com/site/bctnet/Home)
