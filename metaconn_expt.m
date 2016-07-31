@@ -40,29 +40,12 @@ Q2 = Q/twomu;
 S2(:,:) = reshape(S,N,T); %time-resolved community assignment
 
 
-%% promiscuity
+%% flexibility
+%code from http://commdetect.weebly.com/uploads/4/9/5/9/49593677/flexibility.m
 
-np = zeros(nNodes,nTime);
+flex = flexibility(S2,'temp');
 
-for t = 1:nTime
-  temp = S2(:,t);
-  
-  for j = 1:nNodes
-    np(j,t) = sum(temp==temp(j,1));             
-  end
-  
-end
 
-switch_mod = double(abs(diff(S2')')>0);
-switch_parcel = nansum(switch_mod,2)/nTime;
-
-for t = 1:nTime
-  np_Z(:,t) = (np(:,t) - nanmean(np(:,t))) / nanstd(np(:,t));
-end
-
-sw_Z = (switch_parcel - nanmean(switch_parcel))/ nanstd(switch_parcel);
-
-prom_Z = (nanmean(np_Z,2) + sw_Z) / 2;
 
 
 %% graph theoretical measures (requires code from: https://sites.google.com/site/bctnet/Home)
